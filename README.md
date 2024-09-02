@@ -1,4 +1,4 @@
-# NLP Toolkit
+# NLP Tasks
 
 This project contains a set of unified scripts for various Natural Language Processing (NLP) tasks. It provides easy-to-use interfaces for language detection, sentiment analysis, entity recognition, and key phrase extraction.
 
