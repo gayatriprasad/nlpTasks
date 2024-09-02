@@ -1,0 +1,47 @@
+import pkg_resources
+import subprocess
+
+def generate_requirements():
+    # Get all installed packages
+    installed_packages = pkg_resources.working_set
+    installed_packages_list = sorted([f"{i.key}=={i.version}" for i in installed_packages])
+
+    # List of packages used in our scripts
+    required_packages = [
+        "langdetect",
+        "langid",
+        "fasttext",
+        "openai",
+        "textblob",
+        "vaderSentiment",
+        "transformers",
+        "torch",
+        "spacy",
+        "nltk",
+        "rake-nltk",
+        "summa",
+        "yake"
+    ]
+
+    # Filter the installed packages to only include the ones we need
+    final_requirements = [pkg for pkg in installed_packages_list 
+                          if any(req in pkg for req in required_packages)]
+
+    # Add spaCy model
+    final_requirements.append("https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.5.0/en_core_web_sm-3.5.0.tar.gz")
+
+    # Write the requirements to a file
+    with open("requirements.txt", "w") as f:
+        for requirement in final_requirements:
+            f.write(f"{requirement}\n")
+
+    print("requirements.txt has been generated.")
+
+    # Optionally, install the requirements
+    install = input("Do you want to install these requirements now? (y/n): ")
+    if install.lower() == 'y':
+        subprocess.call(["pip", "install", "-r", "requirements.txt"])
+        print("Requirements installed.")
+
+if __name__ == "__main__":
+    generate_requirements()
